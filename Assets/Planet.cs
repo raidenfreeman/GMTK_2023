@@ -1,4 +1,4 @@
-using System;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,14 +18,11 @@ public class Planet : MonoBehaviour
 
     [SerializeField] float scrollSpeedX = 0.05f;
     [SerializeField] float scrollSpeedY = 0.001f;
-    private bool reset = true;
 
     private int spriteArrayLen;
     // Start is called before the first frame update
 
     private int spriteIndex = 0;
-
-    float timer = 0;
 
     private void Start()
     {
@@ -34,23 +31,23 @@ public class Planet : MonoBehaviour
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (Math.Truncate(timer % 2) == 0)
+        if (IsOutOfBounds(rectTransform, imageRef.sprite.textureRect.size))
         {
-            if (reset)
-            {
-                spriteIndex = spriteIndex < spriteArrayLen - 1 ? ++spriteIndex : 0;
-                var imageRefSprite = sprites[spriteIndex];
-                rectTransform.sizeDelta = imageRefSprite.textureRect.size;
-                imageRef.sprite = imageRefSprite;
-                reset = false;
-            }
-        }
-        else
-        {
-            reset = true;
+            spriteIndex = spriteIndex < spriteArrayLen - 1 ? ++spriteIndex : 0;
+            var sprite = sprites[spriteIndex];
+            rectTransform.sizeDelta = sprite.textureRect.size;
+            imageRef.sprite = sprite;
+            rectTransform.anchoredPosition = new Vector2(-1074, 508);
         }
 
         rectTransform.anchoredPosition += new Vector2((Time.deltaTime * scrollSpeedX), (Time.deltaTime * scrollSpeedY));
+    }
+
+    private static bool IsOutOfBounds(RectTransform rect, Vector2 textureRectSize)
+    {
+        var localScale = rect.localScale;
+        var rectAnchoredPosition = rect.anchoredPosition;
+        return math.abs(rectAnchoredPosition.x) > 0.5 * (1920 + textureRectSize.x * localScale.x) + 5 ||
+               math.abs(rectAnchoredPosition.y) > 0.5 * (1080 + textureRectSize.y * localScale.y) + 5;
     }
 }
