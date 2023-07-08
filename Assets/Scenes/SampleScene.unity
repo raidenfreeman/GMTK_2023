@@ -2831,6 +2831,7 @@ MonoBehaviour:
   - {fileID: 565519874}
   - {fileID: 782655417}
   horizontalSpeed: 2
+  oscillationPeriod: 1
 --- !u!4 &1943035071
 Transform:
   m_ObjectHideFlags: 0
