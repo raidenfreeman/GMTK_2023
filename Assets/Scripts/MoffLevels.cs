@@ -1,14 +1,4 @@
-using UnityEngine;
-
-public class MoffLevels : MonoBehaviour
+public static class MoffLevels
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
+    readonly public static string[] Titles = new string[] { "So-so", "Good", "Great", "Grand", "Moffilicious" };
 }
