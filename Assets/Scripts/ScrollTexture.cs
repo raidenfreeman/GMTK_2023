@@ -8,8 +8,15 @@ public class ScrollTexture : MonoBehaviour
 
     [SerializeField] float scrollSpeed = 0.5f;
 
+    private float initialUVY;
+
+    private void Awake()
+    {
+        initialUVY = img.uvRect.y;
+    }
+
     void Update()
     {
-        img.uvRect = new Rect((Time.time * scrollSpeed) % 2, 0f, 1f, 1f);
+        img.uvRect = new Rect((Time.time * scrollSpeed) % 2, initialUVY, 1f, 1f);
     }
 }
