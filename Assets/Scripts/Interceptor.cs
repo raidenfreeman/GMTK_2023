@@ -7,6 +7,7 @@ public class Interceptor : MonoBehaviour
     [SerializeField] private float horizontalSpeed = 2;
 
     [SerializeField] private float oscillationPeriod = 1f;
+    [SerializeField] private float oscillationAmplitude = 0.5f;
     private int totalInterceptors;
 
 
@@ -29,7 +30,7 @@ public class Interceptor : MonoBehaviour
                 var phase = (i % 4) * 0.5f;
                 interceptor.transform.localPosition =
                     new Vector3(interceptorPosition.x,
-                        Mathf.Sin((time / oscillationPeriod + phase) * Mathf.PI));
+                        Mathf.Sin((time / oscillationPeriod + phase) * Mathf.PI) * oscillationAmplitude);
             }
         }
     }
