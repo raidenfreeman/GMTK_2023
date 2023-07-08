@@ -1,4 +1,7 @@
-﻿namespace AutoLetterbox
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+namespace AutoLetterbox
 {
     /* ForceCameraRatio.cs
      *
@@ -24,16 +27,16 @@
             BottomRight
         }
 
+        [Tooltip("The Camera assigned to have an automatically calculated Viewport Ratio")]
+        public Camera camera;
+
         [Tooltip(
             "When a Camera Viewport is shrunk to fit a ratio, it will anchor the new Viewport Rectangle at the given point (relative to the original, unshrunk Viewport)")]
         public CameraAnchor anchor = CameraAnchor.Center;
 
-        [Tooltip("The Camera assigned to have an automatically calculated Viewport Ratio")]
-        public Camera camera;
+        [HideInInspector] public Vector2 vectorAnchor;
 
         private Rect originViewPort;
-
-        [HideInInspector] public Vector2 vectorAnchor;
 
         public CameraRatio(Camera _camera, Vector2 _anchor)
         {
@@ -163,15 +166,16 @@
     [System.Serializable]
     public class ForceCameraRatio : MonoBehaviour
     {
-        public List<CameraRatio> cameras;
+        public Vector2 ratio = new Vector2(16, 9);
+        public bool forceRatioOnAwake = true;
+        public bool listenForWindowChanges = true;
         public bool createCameraForLetterBoxRendering = true;
         public bool findCamerasAutomatically = true;
-        public bool forceRatioOnAwake = true;
+        public Color letterBoxCameraColor = new Color(0, 0, 0, 1);
+
+        public List<CameraRatio> cameras;
 
         public Camera letterBoxCamera;
-        public Color letterBoxCameraColor = new Color(0, 0, 0, 1);
-        public bool listenForWindowChanges = true;
-        public Vector2 ratio = new Vector2(16, 9);
 
         private void Start()
         {

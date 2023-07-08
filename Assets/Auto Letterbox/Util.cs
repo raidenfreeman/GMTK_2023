@@ -1,4 +1,8 @@
-﻿namespace AutoLetterbox
+﻿using System;
+using System.Linq.Expressions;
+using UnityEngine;
+
+namespace AutoLetterbox
 {
     /* Util.cs
      * 

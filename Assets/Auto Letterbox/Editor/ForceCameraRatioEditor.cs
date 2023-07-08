@@ -1,3 +1,6 @@
+using UnityEditor;
+using UnityEngine;
+
 namespace AutoLetterbox
 {
     /* ForceCameraRatioEditor.cs
