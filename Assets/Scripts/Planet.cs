@@ -1,4 +1,3 @@
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,7 +46,7 @@ public class Planet : MonoBehaviour
     {
         var localScale = rect.localScale;
         var rectAnchoredPosition = rect.anchoredPosition;
-        return math.abs(rectAnchoredPosition.x) > 0.5 * (1920 + textureRectSize.x * localScale.x) + 5 ||
-               math.abs(rectAnchoredPosition.y) > 0.5 * (1080 + textureRectSize.y * localScale.y) + 5;
+        return Mathf.Abs(rectAnchoredPosition.x) > 0.5 * (1920 + textureRectSize.x * localScale.x) + 5 ||
+               Mathf.Abs(rectAnchoredPosition.y) > 0.5 * (1080 + textureRectSize.y * localScale.y) + 5;
     }
 }
