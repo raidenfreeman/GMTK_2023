@@ -38,12 +38,13 @@ public class RebelAI : MonoBehaviour
             case 0:
                 MoveUpAndDown(position, position.y);
                 break;
-            case 1:
+            default:
+                // case 1:
                 MoveRandomly(position, position.y);
                 break;
-            case 2:
-                AvoidObstaclesInFront();
-                break;
+            // case 2:
+            //     AvoidObstaclesInFront();
+            //     break;
         }
     }
 
