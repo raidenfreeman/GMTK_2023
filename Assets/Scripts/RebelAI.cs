@@ -6,6 +6,7 @@ public class RebelAI : MonoBehaviour
     private static readonly int VerticalSpeed = Animator.StringToHash("VerticalSpeed");
     [SerializeField] private Animator animator;
     [SerializeField] private BoxCollider2D col2D;
+    [SerializeField] private Score score;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,8 @@ public class RebelAI : MonoBehaviour
     {
         col2D.enabled = false;
         animator.SetTrigger(Explode);
+        score.OnPlayerDied();
+        score.OnRebelDied();
     }
 
     void GoDown()

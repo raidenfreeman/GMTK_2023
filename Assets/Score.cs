@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -28,6 +29,14 @@ public class Score : MonoBehaviour
             AddScore(1);
             yield return null;
         }
+    }
+
+    public void OnRebelDied()
+    {
+        var tmpTransform = tmp.GetComponent<RectTransform>();
+        var tmpPosition = tmpTransform.anchoredPosition;
+        tmpTransform.DOShakePosition(2, 20);
+        AddScore(1000);
     }
 
     public void OnPlayerDied()
