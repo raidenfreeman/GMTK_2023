@@ -139,6 +139,7 @@ public class RebelAI : MonoBehaviour
         transform.DOShakePosition(3, 0.4f).OnComplete(RewspawnWithAdvancedAI);
         randomMoveTween.Kill();
         progressbar.Pause();
+        isMovingRandomly = false;
     }
 
     private void RewspawnWithAdvancedAI()
