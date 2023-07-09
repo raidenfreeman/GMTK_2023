@@ -7,6 +7,7 @@ public class RebelAI : MonoBehaviour
 {
     private static readonly int Explode = Animator.StringToHash("Explode");
     private static readonly int VerticalSpeed = Animator.StringToHash("VerticalSpeed");
+    private static readonly int Reset = Animator.StringToHash("Reset");
     [SerializeField] private Animator animator;
     [SerializeField] private BoxCollider2D col2D;
     [SerializeField] private Score score;
@@ -133,7 +134,6 @@ public class RebelAI : MonoBehaviour
     {
         col2D.enabled = false;
         animator.SetTrigger(Explode);
-        score.OnPlayerDied();
         score.OnRebelDied();
         transform.DOShakePosition(3, 0.4f).OnComplete(RewspawnWithAdvancedAI);
         randomMoveTween.Kill();
@@ -143,8 +143,11 @@ public class RebelAI : MonoBehaviour
     private void RewspawnWithAdvancedAI()
     {
         progressbar.Restart();
+        col2D.enabled = true;
         AIRoutine++;
         animator.SetFloat(VerticalSpeed, 0);
+        animator.SetTrigger(Reset);
+        score.OnRebelRespawn();
     }
 
     void GoDown()

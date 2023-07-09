@@ -7,6 +7,7 @@ public class Score : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI tmp;
     private bool isPlayerAlive = true;
+    private bool isRebelAlive = true;
 
     private int totalScore = 0;
 
@@ -23,7 +24,7 @@ public class Score : MonoBehaviour
 
     private IEnumerator IncScoreEverySecond()
     {
-        while (isPlayerAlive)
+        while (isRebelAlive && isPlayerAlive)
         {
             yield return new WaitForSeconds(0.01f);
             AddScore(1);
@@ -31,8 +32,15 @@ public class Score : MonoBehaviour
         }
     }
 
+    public void OnRebelRespawn()
+    {
+        isRebelAlive = true;
+        StartCoroutine(IncScoreEverySecond());
+    }
+
     public void OnRebelDied()
     {
+        isRebelAlive = false;
         var tmpTransform = tmp.GetComponent<RectTransform>();
         var tmpPosition = tmpTransform.anchoredPosition;
         tmpTransform.DOShakePosition(2, 20);
