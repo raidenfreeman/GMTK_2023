@@ -1,4 +1,6 @@
 using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 
 public class RebelAI : MonoBehaviour
@@ -12,9 +14,13 @@ public class RebelAI : MonoBehaviour
     [SerializeField] private float bottomBound;
     [SerializeField] private float topBound;
 
+    private readonly float randomMovementDuration = 0.5f;
+
     private int AIRoutine = 0;
+    private bool isMovingRandomly = false;
 
     int previousDirection = 1;
+    private TweenerCore<Vector3, Vector3, VectorOptions> randomMoveTween;
 
     // Update is called once per frame
     void Update()
@@ -26,7 +32,7 @@ public class RebelAI : MonoBehaviour
                 MoveUpAndDown(position, position.y);
                 break;
             case 1:
-                MoveRandomly();
+                MoveRandomly(position, position.y);
                 break;
             case 2:
                 AvoidObstaclesInFront();
@@ -78,9 +84,19 @@ public class RebelAI : MonoBehaviour
         // }
     }
 
-    private void MoveRandomly()
+    private void MoveRandomly(Vector3 position, float positionY)
     {
-        // transform.DOMove()
+        if (!isMovingRandomly)
+        {
+            var maxUp = Mathf.Min(positionY + speed * randomMovementDuration, topBound);
+            var maxDown = Mathf.Max(positionY - speed * randomMovementDuration, bottomBound);
+            var targetY = Random.Range(maxDown, maxUp);
+            animator.SetFloat(VerticalSpeed, targetY > positionY ? 1 : -1);
+            var duration = Mathf.Abs(positionY - targetY) / speed;
+            randomMoveTween = transform.DOMoveY(targetY, duration).OnComplete(() => { isMovingRandomly = false; })
+                .SetEase(Ease.Linear);
+            isMovingRandomly = true;
+        }
     }
 
     private void MoveUpAndDown(Vector3 position, float positionY)
@@ -114,11 +130,13 @@ public class RebelAI : MonoBehaviour
         score.OnPlayerDied();
         score.OnRebelDied();
         transform.DOShakePosition(3, 0.4f).OnComplete(RewspawnWithAdvancedAI);
+        randomMoveTween.Kill();
     }
 
     private void RewspawnWithAdvancedAI()
     {
         AIRoutine++;
+        animator.SetFloat(VerticalSpeed, 0);
     }
 
     void GoDown()
