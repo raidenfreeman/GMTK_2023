@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class RebelAI : MonoBehaviour
@@ -34,6 +35,7 @@ public class RebelAI : MonoBehaviour
         animator.SetTrigger(Explode);
         score.OnPlayerDied();
         score.OnRebelDied();
+        transform.DOShakePosition(4, 0.4f);
     }
 
     void GoDown()
