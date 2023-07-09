@@ -13,6 +13,7 @@ public class RebelAI : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float bottomBound;
     [SerializeField] private float topBound;
+    [SerializeField] private ProgessBarToCapital progressbar;
 
     private readonly float randomMovementDuration = 0.5f;
 
@@ -21,6 +22,11 @@ public class RebelAI : MonoBehaviour
 
     int previousDirection = 1;
     private TweenerCore<Vector3, Vector3, VectorOptions> randomMoveTween;
+
+    private void Awake()
+    {
+        Time.timeScale = 1;
+    }
 
     // Update is called once per frame
     void Update()
@@ -131,10 +137,12 @@ public class RebelAI : MonoBehaviour
         score.OnRebelDied();
         transform.DOShakePosition(3, 0.4f).OnComplete(RewspawnWithAdvancedAI);
         randomMoveTween.Kill();
+        progressbar.Pause();
     }
 
     private void RewspawnWithAdvancedAI()
     {
+        progressbar.Restart();
         AIRoutine++;
         animator.SetFloat(VerticalSpeed, 0);
     }
