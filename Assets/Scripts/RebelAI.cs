@@ -22,6 +22,11 @@ public class RebelAI : MonoBehaviour
         Die();
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Die();
+    }
+
     void Die()
     {
         col2D.enabled = false;
