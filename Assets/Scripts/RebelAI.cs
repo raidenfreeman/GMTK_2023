@@ -8,33 +8,28 @@ public class RebelAI : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private BoxCollider2D col2D;
     [SerializeField] private Score score;
+    [SerializeField] private float speed;
+    [SerializeField] private float bottomBound;
+    [SerializeField] private float topBound;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    private int AIRoutine = 0;
+
+    int previousDirection = 1;
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        int layerMask = 1 << 3;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left, 20, layerMask);
-
-        // If it hits something...
-        if (hit.collider != null)
+        switch (AIRoutine)
         {
-            Debug.DrawRay(transform.position, hit.transform.position - transform.position);
-            // Calculate the distance from the surface and the "error" relative
-            // to the floating height.
-            // float distance = Mathf.Abs(hit.point.y - transform.position.y);
-            // float heightError = floatHeight - distance;
-            //
-            // // The force is proportional to the height error, but we remove a part of it
-            // // according to the object's speed.
-            // float force = liftForce * heightError - rb2D.velocity.y * damping;
-            //
-            // // Apply the force to the rigidbody.
-            // rb2D.AddForce(Vector3.up * force);
+            case 0:
+                MoveUpAndDown();
+                break;
+            case 1:
+                MoveRandomly();
+                break;
+            case 2:
+                AvoidObstaclesInFront();
+                break;
         }
     }
 
@@ -48,22 +43,96 @@ public class RebelAI : MonoBehaviour
         Die();
     }
 
+    private void AvoidObstaclesInFront()
+    {
+        int layerMask = 1 << 3;
+        var originCenter = transform.position;
+        var originUp = transform.position + Vector3.up * 0.65f;
+        var originDown = transform.position + Vector3.down * 0.65f;
+        RaycastHit2D hitUp = Physics2D.Raycast(originUp, Vector2.left, 20, layerMask);
+        RaycastHit2D hitCenter = Physics2D.Raycast(originCenter, Vector2.left, 20, layerMask);
+        RaycastHit2D hitDown = Physics2D.Raycast(originDown, Vector2.left, 20, layerMask);
+        float distanceUp = Mathf.Abs(hitUp.point.y - transform.position.y);
+        float distanceCenter = Mathf.Abs(hitCenter.point.y - transform.position.y);
+        float distanceDown = Mathf.Abs(hitDown.point.y - transform.position.y);
+
+        var closestDistance = Mathf.Min(new[] { distanceCenter, distanceUp, distanceDown });
+        if (distanceUp == closestDistance)
+        {
+        }
+
+        if (distanceDown == closestDistance)
+        {
+        }
+
+        if (distanceCenter == closestDistance)
+        {
+        }
+
+        // If it hits something...
+        // if (hit.collider != null)
+        // {
+        //     Debug.DrawRay(origin, hit.transform.position - origin);
+        //     float distance = Mathf.Abs(hit.point.y - transform.position.y);
+        // }
+    }
+
+    private void MoveRandomly()
+    {
+        // transform.DOMove()
+    }
+
+    private void MoveUpAndDown()
+    {
+        var transformPosition = transform.position;
+        var positionY = transformPosition.y;
+        if (positionY < bottomBound)
+        {
+            transform.position = new Vector3(transformPosition.x, bottomBound, transformPosition.z);
+            previousDirection = 1;
+        }
+
+        if (positionY > topBound)
+        {
+            transform.position = new Vector3(transformPosition.x, topBound, transformPosition.z);
+            previousDirection = -1;
+        }
+
+        if (previousDirection == 1)
+        {
+            GoUp();
+        }
+        else
+        {
+            GoDown();
+        }
+    }
+
     void Die()
     {
         col2D.enabled = false;
         animator.SetTrigger(Explode);
         score.OnPlayerDied();
         score.OnRebelDied();
-        transform.DOShakePosition(4, 0.4f);
+        transform.DOShakePosition(3, 0.4f).OnComplete(RewspawnWithAdvancedAI);
+    }
+
+    private void RewspawnWithAdvancedAI()
+    {
+        AIRoutine++;
     }
 
     void GoDown()
     {
+        transform.Translate(speed * Time.deltaTime * Vector3.down);
+        previousDirection = -1;
         animator.SetFloat(VerticalSpeed, -1);
     }
 
     void GoUp()
     {
+        transform.Translate(speed * Time.deltaTime * Vector3.up);
+        previousDirection = 1;
         animator.SetFloat(VerticalSpeed, 1);
     }
 
