@@ -84,17 +84,17 @@ public class RebelAI : MonoBehaviour
 
     private void MoveUpAndDown()
     {
-        var transformPosition = transform.position;
-        var positionY = transformPosition.y;
+        var position = transform.position;
+        var positionY = position.y;
         if (positionY < bottomBound)
         {
-            transform.position = new Vector3(transformPosition.x, bottomBound, transformPosition.z);
+            transform.position = new Vector3(position.x, bottomBound, position.z);
             previousDirection = 1;
         }
 
         if (positionY > topBound)
         {
-            transform.position = new Vector3(transformPosition.x, topBound, transformPosition.z);
+            transform.position = new Vector3(position.x, topBound, position.z);
             previousDirection = -1;
         }
 
