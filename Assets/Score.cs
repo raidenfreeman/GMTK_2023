@@ -6,7 +6,6 @@ using UnityEngine;
 public class Score : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI tmp;
-    private bool isPlayerAlive = true;
     private bool isRebelAlive = true;
 
     private int totalScore = 0;
@@ -24,7 +23,7 @@ public class Score : MonoBehaviour
 
     private IEnumerator IncScoreEverySecond()
     {
-        while (isRebelAlive && isPlayerAlive)
+        while (isRebelAlive)
         {
             yield return new WaitForSeconds(0.01f);
             AddScore(1);
@@ -45,10 +44,5 @@ public class Score : MonoBehaviour
         var tmpPosition = tmpTransform.anchoredPosition;
         tmpTransform.DOShakePosition(2, 20);
         AddScore(1000);
-    }
-
-    public void OnPlayerDied()
-    {
-        isPlayerAlive = false;
     }
 }
