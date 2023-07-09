@@ -19,10 +19,10 @@ public class RebelAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3 position = transform.position;
         switch (AIRoutine)
         {
             case 0:
-                Vector3 position = transform.position;
                 MoveUpAndDown(position, position.y);
                 break;
             case 1:
