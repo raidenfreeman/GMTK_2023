@@ -22,7 +22,8 @@ public class RebelAI : MonoBehaviour
         switch (AIRoutine)
         {
             case 0:
-                MoveUpAndDown();
+                Vector3 position = transform.position;
+                MoveUpAndDown(position, position.y);
                 break;
             case 1:
                 MoveRandomly();
@@ -82,10 +83,8 @@ public class RebelAI : MonoBehaviour
         // transform.DOMove()
     }
 
-    private void MoveUpAndDown()
+    private void MoveUpAndDown(Vector3 position, float positionY)
     {
-        var position = transform.position;
-        var positionY = position.y;
         if (positionY < bottomBound)
         {
             transform.position = new Vector3(position.x, bottomBound, position.z);
