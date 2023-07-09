@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class ShipDispatcher : MonoBehaviour
@@ -9,10 +7,12 @@ public class ShipDispatcher : MonoBehaviour
     [SerializeField] private Camera mainCam;
     [SerializeField] private GameObject ghost;
     [SerializeField] private SpriteRenderer ghostSprite;
+    private int interceptorsLeft = 1;
+
 
     void Update()
     {
-        if (ghostSprite.sprite)
+        if (interceptorsLeft > 0)
         {
             Vector2 screenToWorldPoint = mainCam.ScreenToWorldPoint(Input.mousePosition);
             screenToWorldPoint.x = -7.5f;
@@ -27,40 +27,19 @@ public class ShipDispatcher : MonoBehaviour
 
     private void PlaceInterceptorGroup(Interceptor interceptorGroup, Vector3 target)
     {
+        interceptorsLeft--;
         interceptorGroup.transform.position = target;
         interceptorGroup.gameObject.SetActive(true);
-        DisableGhost();
+        if (interceptorsLeft == 0)
+        {
+            DisableGhost();
+        }
     }
 
     private void DisableGhost()
     {
         ghostSprite.sprite = null;
     }
-
-
-    public void OnInterceptorButtonPressed()
-    {
-        if (Input.GetMouseButtonUp(0))
-        {
-            StartCoroutine(WaitForMouseUp(() => { EnableGhost(interceptorGhost); }));
-        }
-    }
-
-    private IEnumerator WaitForMouseUp(Action a)
-    {
-        while (Input.GetMouseButtonUp(0))
-        {
-            yield return 0;
-        }
-
-        a.Invoke();
-    }
-
-    private void EnableGhost(Sprite sprite)
-    {
-        ghostSprite.sprite = sprite;
-    }
-
 
     private void DispatchInterceptors(Vector3 target)
     {
