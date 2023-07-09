@@ -9,7 +9,6 @@ public class ShipDispatcher : MonoBehaviour
     [SerializeField] private SpriteRenderer ghostSprite;
     private int interceptorsLeft = 1;
 
-
     void Update()
     {
         if (interceptorsLeft > 0)
@@ -23,6 +22,12 @@ public class ShipDispatcher : MonoBehaviour
                 DispatchInterceptors(screenToWorldPoint);
             }
         }
+    }
+
+    public void InterceptorsDone()
+    {
+        interceptorsLeft++;
+        ghostSprite.sprite = interceptorGhost;
     }
 
     private void PlaceInterceptorGroup(Interceptor interceptorGroup, Vector3 target)

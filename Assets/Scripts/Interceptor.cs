@@ -8,6 +8,9 @@ public class Interceptor : MonoBehaviour
 
     [SerializeField] private float oscillationPeriod = 1f;
     [SerializeField] private float oscillationAmplitude = 0.5f;
+
+    [SerializeField] private ShipDispatcher dispatcher;
+
     private int totalInterceptors;
 
 
@@ -32,6 +35,12 @@ public class Interceptor : MonoBehaviour
                     new Vector3(interceptorPosition.x,
                         Mathf.Sin((time / oscillationPeriod + phase) * Mathf.PI) * oscillationAmplitude);
             }
+        }
+
+        if (transform.position.x > 12.50)
+        {
+            dispatcher.InterceptorsDone();
+            gameObject.SetActive(false);
         }
     }
 }
