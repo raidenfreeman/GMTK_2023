@@ -16,6 +16,8 @@ public class RebelAI : MonoBehaviour
     [SerializeField] private float topBound;
     [SerializeField] private ProgessBarToCapital progressbar;
 
+    [SerializeField] private ShipDispatcher disp;
+
     private readonly float randomMovementDuration = 0.5f;
 
     private int AIRoutine = 0;
@@ -140,6 +142,7 @@ public class RebelAI : MonoBehaviour
         randomMoveTween.Kill();
         progressbar.Pause();
         isMovingRandomly = false;
+        disp.EnableAllInt();
     }
 
     private void RewspawnWithAdvancedAI()

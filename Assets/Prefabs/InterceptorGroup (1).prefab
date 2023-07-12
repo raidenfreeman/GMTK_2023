@@ -373,9 +373,10 @@ MonoBehaviour:
   - {fileID: 7145797845987790018}
   - {fileID: 6441465433071378627}
   - {fileID: 5191211785651277767}
-  horizontalSpeed: 2
+  horizontalSpeed: 6
   oscillationPeriod: 1
-  oscillationAmplitude: 0.5
+  oscillationAmplitude: 0.25
+  dispatcher: {fileID: 0}
 --- !u!1 &5191211785651277767
 GameObject:
   m_ObjectHideFlags: 0

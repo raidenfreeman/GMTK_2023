@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShipDispatcher : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class ShipDispatcher : MonoBehaviour
     [SerializeField] private Camera mainCam;
     [SerializeField] private GameObject ghost;
     [SerializeField] private SpriteRenderer ghostSprite;
+    [SerializeField] private Button[] btns;
     private int interceptorsLeft = 1;
 
     void Update()
@@ -21,6 +23,15 @@ public class ShipDispatcher : MonoBehaviour
             {
                 DispatchInterceptors(screenToWorldPoint);
             }
+        }
+    }
+
+    public void EnableAllInt()
+    {
+        interceptorsLeft = 5;
+        foreach (var button in btns)
+        {
+            button.gameObject.SetActive(true);
         }
     }
 
