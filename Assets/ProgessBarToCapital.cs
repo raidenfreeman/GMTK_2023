@@ -64,7 +64,8 @@ public class ProgessBarToCapital : MonoBehaviour
         {
             planetTween.Kill();
             planetTween = null;
-            planetTransform.position = new Vector3(-10, 0, 0);
         }
+
+        planetTransform.DOMove(new Vector3(-10, 0, 0), 2);
     }
 }
