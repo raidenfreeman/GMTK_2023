@@ -18,6 +18,9 @@ Assets/Plugins/Editor/JetBrains*
 [Bb]uild/
 [Bb]uilds/
 Assets/AssetStoreTools*
+# Ignore temporaries from GameCI
+/[Aa]rtifacts/
+/[Cc]odeCoverage/
 # Unity local user project setting
 UserSettings/
 # Visual Studio cache directory
